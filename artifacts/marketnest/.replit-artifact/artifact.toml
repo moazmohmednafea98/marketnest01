@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MarketNest Marketplace"
+description = "A focused marketplace where shoppers browse useful products, manage a session cart, place orders, and administrators manage the catalog and recent orders."
+version = "1.0.0"
+id = "artifacts/marketnest"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25709
+
+[services.development]
+run = "pnpm --filter @workspace/marketnest run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/marketnest", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/marketnest/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25709"
+BASE_PATH = "/"
